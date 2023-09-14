@@ -36,7 +36,7 @@ textarea {
 }
 #myrecipe-notes-id {
   display: grid;
-  grid-template-columns: auto auto auto;
+  grid-template-columns: auto auto;
   background-color: cadetblue;
   padding: 50px;
 }
@@ -47,18 +47,19 @@ textarea {
   padding: 10px;
   background-color: white;
   margin: 10px auto;
-  width: 350px;
+  width: 80%;
 }
 .receipe-img {
   height: 200px;
   width: 200px;
+  border: 1px solid #c397d5;
+  border-radius: 5px;
 }
 .btn {
+  padding: 8px 2px;
   width: 100px;
-  margin-top: 50px;
   background-color: dodgerblue;
   color: white;
-  padding: 8px 2px;
   border: 1px solid white;
   border-radius: 5px;
   float: right;
@@ -66,7 +67,8 @@ textarea {
 .flex-card {
   display: flex;
   flex-direction: row-reverse;
-  justify-content: space-between;
+  justify-content: space-evenly;
+  padding: 10px;
 }
 .orders {
   text-align: end;
@@ -75,18 +77,42 @@ textarea {
   color: red;
   display: none;
 }
-#oder-no {
-  color: dodgerblue;
+.green {
+  color: green;
 }
-@media screen and (max-width: 1200px) {
+.red {
+  color: red;
+}
+h2 {
+  font-size: 17px;
+}
+@media screen and (max-width: 1400px) {
   #myrecipe-notes-id {
     display: grid;
     grid-template-columns: auto auto;
   }
 }
-@media screen and (max-width: 768px) {
+
+@media screen and (max-width: 992px) {
   #myrecipe-notes-id {
     display: grid;
     grid-template-columns: auto;
+  }
+  .receipe-card {
+    width: 80%;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  #myrecipe-notes-id {
+    display: grid;
+    grid-template-columns: auto;
+  }
+  .receipe-card {
+    width: 80%;
+  }
+  .receipe-img {
+    height: 150px;
+    width: 150px;
   }
 }

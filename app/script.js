@@ -59,7 +59,7 @@ function recipeform() {
     e.preventDefault();
     let receipetitle = document.querySelector("#receipe-title-id").value;
     let receipet = document.querySelector("#receipe-time-id").value.split(":");
-    let receipetime = receipet[0] + "hr" + "-" + receipet[1] + "mins";
+    let receipetime = receipet[0] + "hr" + "-" + receipet[1] + "min";
     let receipestep = document.querySelector("#receipe-step-id").value;
     let receipeimage = document.querySelector("#receipe-image-id").value;
     const recipe = {
@@ -71,7 +71,6 @@ function recipeform() {
     };
     addSteps(recipe);
     form.reset();
-    validate();
     showUI();
     console.log(receipetime);
   });
@@ -112,18 +111,30 @@ function showUI() {
     const receipeDiv = makerecipeDiv(MyReceipes[i]);
     appendToReceipe(receipeDiv);
   }
+  ordervalidate();
 }
-function validate() {
-  let x = localStorage.length;
-  if (!x) {
-    let order0 = document.querySelector("#order");
-    order0.style.display = "block";
+/**  alternate way to validate no.of .orders */
+
+// function validate() {
+//   let x = JSON.parse(localStorage.getItem("my-receipes-list")).length;
+//   if (x < 1) {
+//     let order0 = document.querySelector("#order");
+//     order0.style.display = "block";
+//   } else {
+//     document.querySelector("#oder-no").innerHTML = "no.of.orders" + x;
+//     console.log(x);
+//   }
+// }
+
+function ordervalidate() {
+  const total = document.querySelector("#order-no");
+  total.innerHTML = "Total No: " + MyReceipes.length;
+  if (MyReceipes.length != 0) {
+    total.setAttribute("class", "green");
   } else {
-    document.getElementById("#oder-no").innerHTML = x;
-    console.log(x);
+    total.setAttribute("class", "red");
   }
 }
-
 getFromLocalStorage();
 recipeform();
 showUI();
