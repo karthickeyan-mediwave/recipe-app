@@ -1,0 +1,129 @@
+MyReceipes = [];
+
+function makerecipeDiv(recipe) {
+  const div = document.createElement("div");
+  div.setAttribute("class", "receipe-card");
+  div.setAttribute("id", `recipe-${recipe.id}`);
+  const flexDiv = document.createElement("div");
+  flexDiv.setAttribute("class", "flex-card");
+
+  const headDiv = document.createElement("div");
+  headDiv.setAttribute("class", "head-card");
+  const imgDiv = document.createElement("div");
+  imgDiv.setAttribute("class", "img-card");
+
+  const h1 = document.createElement("h1");
+  h1.innerText = recipe["title"];
+
+  const h2 = document.createElement("h2");
+  h2.innerText = recipe["time"];
+  const h3 = document.createElement("h3");
+  h3.innerText = recipe["step"];
+  const img = document.createElement("img");
+  img.setAttribute("class", "receipe-img");
+  img.src = recipe["image"];
+
+  const btn = document.createElement("button");
+  btn.setAttribute("class", "btn");
+  btn.innerText = "Delete";
+  btn.addEventListener("click", function () {
+    removenotes(recipe["id"]);
+  });
+
+  div.appendChild(h1);
+  div.appendChild(h2);
+  div.appendChild(h3);
+  div.appendChild(img);
+  div.appendChild(btn);
+  div.appendChild(headDiv);
+  div.appendChild(imgDiv);
+  div.appendChild(flexDiv);
+  headDiv.appendChild(h1);
+  headDiv.appendChild(h2);
+  headDiv.appendChild(h3);
+  imgDiv.appendChild(img);
+  flexDiv.append(headDiv);
+  flexDiv.appendChild(imgDiv);
+  div.appendChild(btn);
+
+  return div;
+}
+function appendToReceipe(recipeDiv) {
+  const app = document.querySelector("#myrecipe-notes-id");
+  app.appendChild(recipeDiv);
+}
+
+function recipeform() {
+  let form = document.querySelector("#receipe-form-id");
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    let receipetitle = document.querySelector("#receipe-title-id").value;
+    let receipet = document.querySelector("#receipe-time-id").value.split(":");
+    let receipetime = receipet[0] + "hr" + "-" + receipet[1] + "mins";
+    let receipestep = document.querySelector("#receipe-step-id").value;
+    let receipeimage = document.querySelector("#receipe-image-id").value;
+    const recipe = {
+      id: new Date().getTime(),
+      title: receipetitle,
+      time: receipetime,
+      step: receipestep,
+      image: receipeimage,
+    };
+    addSteps(recipe);
+    form.reset();
+    validate();
+    showUI();
+    console.log(receipetime);
+  });
+}
+
+function addSteps(receipe) {
+  MyReceipes.push(receipe);
+  saveToLocalStorage();
+  showUI();
+}
+function removenotes(receipeId) {
+  console.log("Deleting ", receipeId);
+  const filteredArray = MyReceipes.filter((receipe) => receipe.id != receipeId);
+  MyReceipes = filteredArray;
+  saveToLocalStorage();
+  showUI();
+}
+function saveToLocalStorage() {
+  const str = JSON.stringify(MyReceipes);
+  localStorage.setItem("my-receipes-list", str);
+}
+
+function getFromLocalStorage() {
+  const str = localStorage.getItem("my-receipes-list");
+  if (!str) {
+    MyReceipes = [];
+  } else {
+    MyReceipes = JSON.parse(str);
+  }
+}
+function clearApp() {
+  const app = document.querySelector("#myrecipe-notes-id");
+  app.innerHTML = "";
+}
+function showUI() {
+  clearApp();
+  for (let i = 0; i < MyReceipes.length; i++) {
+    const receipeDiv = makerecipeDiv(MyReceipes[i]);
+    appendToReceipe(receipeDiv);
+  }
+}
+function validate() {
+  let x = localStorage.length;
+  if (!x) {
+    let order0 = document.querySelector("#order");
+    order0.style.display = "block";
+  } else {
+    document.getElementById("#oder-no").innerHTML = x;
+    console.log(x);
+  }
+}
+
+getFromLocalStorage();
+recipeform();
+showUI();

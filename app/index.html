@@ -3,9 +3,57 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
     <title>Recipe-app</title>
   </head>
   <body>
-    <div></div>
+    <div class="form-div">
+      <h1 class="receipe-head">Recipes</h1>
+      <div class="form-wrap">
+        <form class="receipe-form" id="receipe-form-id">
+          <label for="title">Title</label><br />
+          <input
+            type="text"
+            name="recipe-title"
+            id="receipe-title-id"
+            required
+          />
+          <br />
+          <label for="title">Time</label><br />
+          <input
+            type="time"
+            name="receipe-time"
+            id="receipe-time-id"
+            required
+          />
+          <br />
+          <label for="">Steps</label> <br />
+          <textarea
+            name="receipe-step"
+            id="receipe-step-id"
+            cols="30"
+            rows="10"
+            required
+          ></textarea>
+          <br />
+          <label for="">Image</label> <br />
+          <input
+            type="url"
+            name="receipe-image"
+            id="receipe-image-id"
+            required
+          />
+          <br />
+          <input type="submit" value="Add diary" id="form-submit-btn" />
+        </form>
+      </div>
+    </div>
+    <div class="orders">
+      <p>ORDERS</p>
+      <h2 id="order">0</h2>
+      <h2 id="order-no"></h2>
+    </div>
+    <div id="myrecipe-notes-id"></div>
   </body>
 </html>
