@@ -112,6 +112,7 @@ function showUI() {
     appendToReceipe(receipeDiv);
   }
   ordervalidate();
+  timesort();
 }
 /**  alternate way to validate no.of .orders */
 
@@ -125,6 +126,16 @@ function showUI() {
 //     console.log(x);
 //   }
 // }
+function timesort() {
+  MyReceipes.sort(function (a, b) {
+    let atime = a["time"].split(":");
+    let btime = b["time"].split(":");
+    return (
+      new Date(2023, 8, 15, atime[0], atime[1]) -
+      new Date(2023, 8, 15, btime[0], btime[1])
+    );
+  });
+}
 
 function ordervalidate() {
   const total = document.querySelector("#order-no");
@@ -135,6 +146,7 @@ function ordervalidate() {
     total.setAttribute("class", "red");
   }
 }
+
 getFromLocalStorage();
 recipeform();
 showUI();
