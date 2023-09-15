@@ -16,7 +16,8 @@ function makerecipeDiv(recipe) {
   h1.innerText = recipe["title"];
 
   const h2 = document.createElement("h2");
-  h2.innerText = recipe["time"];
+  h2.innerText = changeTimeFormat(recipe["time"]);
+
   const h3 = document.createElement("h3");
   h3.innerText = recipe["step"];
   const img = document.createElement("img");
@@ -58,14 +59,14 @@ function recipeform() {
   form.addEventListener("submit", function (e) {
     e.preventDefault();
     let receipetitle = document.querySelector("#receipe-title-id").value;
-    let receipet = document.querySelector("#receipe-time-id").value.split(":");
-    let receipetime = receipet[0] + "hr" + "-" + receipet[1] + "min";
+    let receipet = document.querySelector("#receipe-time-id").value;
+    // let receipetime = receipet[0] + "hr" + "-" + receipet[1] + "min";
     let receipestep = document.querySelector("#receipe-step-id").value;
     let receipeimage = document.querySelector("#receipe-image-id").value;
     const recipe = {
       id: new Date().getTime(),
       title: receipetitle,
-      time: receipetime,
+      time: receipet,
       step: receipestep,
       image: receipeimage,
     };
@@ -78,6 +79,7 @@ function recipeform() {
 
 function addSteps(receipe) {
   MyReceipes.push(receipe);
+  timesort();
   saveToLocalStorage();
   showUI();
 }
@@ -101,6 +103,17 @@ function getFromLocalStorage() {
     MyReceipes = JSON.parse(str);
   }
 }
+function timesort() {
+  MyReceipes.sort(function (a, b) {
+    let atime = a["time"].split(":");
+    let btime = b["time"].split(":");
+    return (
+      new Date(2023, 8, 15, atime[0], atime[1]) -
+      new Date(2023, 8, 15, btime[0], btime[1])
+    );
+  });
+}
+
 function clearApp() {
   const app = document.querySelector("#myrecipe-notes-id");
   app.innerHTML = "";
@@ -112,29 +125,6 @@ function showUI() {
     appendToReceipe(receipeDiv);
   }
   ordervalidate();
-  timesort();
-}
-/**  alternate way to validate no.of .orders */
-
-// function validate() {
-//   let x = JSON.parse(localStorage.getItem("my-receipes-list")).length;
-//   if (x < 1) {
-//     let order0 = document.querySelector("#order");
-//     order0.style.display = "block";
-//   } else {
-//     document.querySelector("#oder-no").innerHTML = "no.of.orders" + x;
-//     console.log(x);
-//   }
-// }
-function timesort() {
-  MyReceipes.sort(function (a, b) {
-    let atime = a["time"].split(":");
-    let btime = b["time"].split(":");
-    return (
-      new Date(2023, 8, 15, atime[0], atime[1]) -
-      new Date(2023, 8, 15, btime[0], btime[1])
-    );
-  });
 }
 
 function ordervalidate() {
@@ -147,6 +137,43 @@ function ordervalidate() {
   }
 }
 
+function changeTimeFormat(time) {
+  const changeTime = time.split(":");
+  const hr = changeTime[0];
+  const mn = changeTime[1];
+  let timeFormat = "";
+  if (hr != 0) {
+    timeFormat += `${hr} Hrs`;
+  }
+  if (mn != 0) {
+    timeFormat += ` ${mn} Mins`;
+  }
+  return timeFormat.trim();
+}
 getFromLocalStorage();
 recipeform();
 showUI();
+
+/**  alternate way to validate no.of .orders */
+
+// function validate() {
+//   let x = JSON.parse(localStorage.getItem("my-receipes-list")).length;
+//   if (x < 1) {
+//     let order0 = document.querySelector("#order");
+//     order0.style.display = "block";
+//   } else {
+//     document.querySelector("#oder-no").innerHTML = "no.of.orders" + x;
+//     console.log(x);
+//   }
+// }
+
+// function timeneglect() {
+//   let receipet = document.querySelector("#receipe-time-id").value.split(":");
+//   if ((receipet[0] = 0)) {
+//     receipet[0] + ""
+//   } else if ((receipet[1] = 0)) {
+//     receipet[1] = "";
+//   } else {
+//     receipet[0] + "hr" + "-" + receipet[1] + "min";
+//   }
+// }
